@@ -1,40 +1,37 @@
-import java.io.*;
-import java.util.Scanner;
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 public class JsonHandler {
     public static void newJson(String name, String path){
         File file=new File(path+"\\"+name);
         try {
-            if(file.createNewFile()){
-                System.out.println("File created: "+name);
-                BufferedWriter br=new BufferedWriter(new FileWriter(file));
-                br.write("{");
-                br.write("}");
-                br.close();
-            }
+            file.createNewFile();
         }catch(Exception e){
             System.out.println(e);
         }
     }
 
-    public static void newObject(File file,String key,String value){
+    public static void newObject(Path path, String key, String value){
         try {
-            FileReader br=new FileReader(file);
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+            List<String> lines=Files.readAllLines(path);
+            int size=lines.size();
+            System.out.println("Size: "+size);
+
             String str="\""+key+"\":"+"\""+value+"\",";
-            int start=br.read();
-            System.out.println(start);
-//            if(start=="{}"){
-//                str="{\""+key+"\":"+"\""+value+"\",}";
-//            }
-            bw.write(str,0,str.length());
-            bw.close();
+
+            if(size==0){
+                str="{\n\""+key+"\":"+"\""+value+"\"\n}";
+                lines.add(0,str);
+            }else{
+                lines.add(1,str);
+
+            }
+            Files.write(path,lines, StandardCharsets.UTF_8);
         }catch(Exception e){
             e.printStackTrace();
         }
-    }
-    public static void main(String []args){
-//        newJson("recent.json","C:\\Dhanraj\\Dhanraj Website\\recent");
-        newObject(new File("C:\\Dhanraj\\Dhanraj Website\\recent\\recent.json"),"name","Dhanraj");
     }
 }
