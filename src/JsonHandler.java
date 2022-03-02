@@ -20,10 +20,10 @@ public class JsonHandler {
             int size=lines.size();
             System.out.println("Size: "+size);
 
-            String str="\""+key+"\":"+"\""+value+"\",";
+            String str="\t\""+key+"\":"+" \""+value+"\",";
 
             if(size==0){
-                str="{\n\""+key+"\":"+"\""+value+"\"\n}";
+                str="{\t\n\""+key+"\":"+" \""+value+"\"\n}";
                 lines.add(0,str);
             }else{
                 lines.add(1,str);
